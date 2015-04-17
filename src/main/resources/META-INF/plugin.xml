@@ -6,12 +6,12 @@
         <![CDATA[
 <p>
     This plugin provides both real-time and on-demand scanning
-    of Java files with CheckStyle 5.7 from within IDEA.
+    of Java files with CheckStyle 6.5 from within IDEA.
 </p>
         ]]>
     </description>
-    <version>4.5.3</version>
-    <idea-version since-build="129.677"/>
+    <version>4.14.2</version>
+    <idea-version since-build="141.178"/>
     <vendor url="http://infernus.org/" email="james@infernus.org">James Shiell</vendor>
 
     <depends>com.intellij.modules.java</depends>
@@ -19,6 +19,35 @@
     <change-notes>
         <![CDATA[
 <ul>
+    <li>4.14.2: Fixed: Updated icons to more closely resemble current CheckStyle icon.</li>
+    <li>4.14.2: Fixed: File writes are now forced to UTF-8 (#84).</li>
+    <li>4.14.1: Fixed: HTTP rules files should result in fewer temporary files (#149).</li>
+    <li>4.14.1: Fixed: findFile now uses ReadAction (#140).</li>
+    <li>4.14.0: New: Moved to CheckStyle 6.5, which requires Java 7 or above.</li>
+    <li>4.14.0: New: Moved to Java 8. Please make sure IDEA is running on JDK 8. OS X users must use the 14.1 build with the bundled JDK.</li>
+    <li>4.14.0: New: As such, we now use the IDEA 14.1 SDK.</li>
+    <li>4.13.2: New: Reverted to IDEA 13 SDK, as when IDEA 14.1 drops with Java 8 for OS X users there's going to be an SDK update anyway.</li>
+    <li>4.13.2: Fixed: Third party classes were not available in dialogue editors. (#133).</li>
+    <li>4.13.1: Fixed: Became paranoid about ToolWindow implementation classes to avoid ClassCastExceptions (#131).</li>
+    <li>4.13.0: New: Moved to IDEA 14 SDK.</li>
+    <li>4.12.0: New: Files can now be selected from within JAR files (#125).</li>
+    <li>4.11.2: Fixed: Changed configuration storage to use a sorted map, to stop silly changes to project files.</li>
+    <li>4.11.2: Fixed: Configuration files are now sorted by description in the configuration panel.</li>
+    <li>4.11.2: Fixed: Filename defaults should now be taken into account (#119).</li>
+    <li>4.11.2 - Fixed: Cell edits in properties table are now directly committed on action (#119).</li>
+    <li>4.11.1: Fixed: ClassCast on ToolWindow via presumed race condition (#82).</li>
+    <li>4.11.0: New: Updated to CheckStyle 6.1.1 (#124).</li>
+    <li>4.11.0: Fixed: Made DTDs for import_control 1.1 and packages 1.0 available for offline access (#123).</li>
+    <li>4.10.0: New: Updated to CheckStyle 6.1 (#120).</li>
+    <li>4.9.0: New: Updated to CheckStyle 6.0 (#116).</li>
+    <li>4.8.0: New: Updated to CheckStyle 5.9 (#115).</li>
+    <li>4.7.0: New: Updated to CheckStyle 5.8 (#114).</li>
+    <li>4.6.2: Removed commons-logging from plugin classpath (#113).</li>
+    <li>4.6.1: Rules files may now have extension 'checkstyle' (#112).</li>
+    <li>4.6.0: Fixed caching of project relative locations between projects (#106).</li>
+    <li>4.6.0: Moved to IDEA SDK 133.696 (13.0.2).</li>
+    <li>4.5.5: Fixed: Project base directory is no longer permanently cached (#106).</li>
+    <li>4.5.4: Fixed: Null check for view; thanks to Miel Donkers (#104).</li>
     <li>4.5.3: Fixed: Added range check for line numbers (#100).</li>
     <li>4.5.2: New: When adding a HTTPS location you can now choose to ignore certificate errors (#99).</li>
     <li>4.5.2: Fixed: HTTP basic auth is now supported for URLs with a username/password (#93).</li>
@@ -87,6 +116,8 @@
                         serviceImplementation="org.infernus.idea.checkstyle.CheckStyleConfiguration"/>
         <projectService serviceInterface="org.infernus.idea.checkstyle.util.ModuleClassPathBuilder"
                         serviceImplementation="org.infernus.idea.checkstyle.util.ModuleClassPathBuilder"/>
+        <projectService serviceInterface="org.infernus.idea.checkstyle.model.ConfigurationLocationFactory"
+                        serviceImplementation="org.infernus.idea.checkstyle.model.ConfigurationLocationFactory"/>
 
         <projectConfigurable instance="org.infernus.idea.checkstyle.CheckStyleConfigurable"/>
 

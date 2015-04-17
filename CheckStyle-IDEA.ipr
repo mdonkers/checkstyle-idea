@@ -29,26 +29,31 @@
   <component name="CheckStyle-IDEA">
     <option name="configuration">
       <map>
-        <entry key="active-configuration" value="LOCAL_FILE:$PRJ_DIR$/test-configs/import-control.xml:ImportControl" />
+        <entry key="active-configuration" value="LOCAL_FILE:$PRJ_DIR$/test-configs/yazino-checkstyle-rules.xml:Yazino" />
         <entry key="check-nonjava-files" value="false" />
         <entry key="check-test-classes" value="false" />
-        <entry key="location-0" value="LOCAL_FILE:$PRJ_DIR$/test-configs/issue-96.xml:Issue 96" />
-        <entry key="location-1" value="LOCAL_FILE:$PRJ_DIR$/test-configs/issue-98.xml:Issue 98" />
-        <entry key="location-10" value="LOCAL_FILE:$PRJ_DIR$/test-configs/issue-23.xml:Issue 23" />
-        <entry key="location-11" value="LOCAL_FILE:$PRJ_DIR$/test-configs/sonar.xml:Sonar" />
-        <entry key="location-12" value="LOCAL_FILE:$PRJ_DIR$/test-configs/import-control.xml:ImportControl" />
-        <entry key="location-13" value="LOCAL_FILE:$PRJ_DIR$/test-configs/amigo-cs5.0.xml:Amigo" />
-        <entry key="location-14" value="CLASSPATH:/sun_checks.xml:The default CheckStyle rules" />
-        <entry key="location-2" value="LOCAL_FILE:$PRJ_DIR$/test-configs/beyondtrack_checks.xml:Issue 86" />
-        <entry key="location-3" value="LOCAL_FILE:/Users/jshiell/Projects/Yazino/support/build/checkstyle-loose/src/main/resources/yazino-checkstyle-rules.xml:Yazino" />
-        <entry key="location-4" value="LOCAL_FILE:$PRJ_DIR$/test-configs/issue-53.xml:Issue 53" />
-        <entry key="location-5" value="LOCAL_FILE:$PRJ_DIR$/test-configs/man-checkstyle.xml:Man" />
-        <entry key="location-6" value="LOCAL_FILE:$PRJ_DIR$/test-configs/beyondtrack_checks.xml:BT" />
-        <entry key="location-7" value="LOCAL_FILE:$PRJ_DIR$/test-configs/man-checkstyle.xml:Man2" />
-        <entry key="location-8" value="LOCAL_FILE:$PRJ_DIR$/test-configs/issue-23.xml:23" />
-        <entry key="location-9" value="LOCAL_FILE:$PRJ_DIR$/test-configs/amigo-cs5.0.xml:A2" />
-        <entry key="property-1.samedir" value="" />
-        <entry key="property-3.checkstyle.suppressions.file" value="$PROJECT_DIR$/../Yazino/support/build/checkstyle-loose/src/main/resources/yazino-checkstyle-suppressions.xml" />
+        <entry key="location-0" value="LOCAL_FILE:$PRJ_DIR$/test-configs/amigo-cs5.0.xml:A2" />
+        <entry key="location-1" value="LOCAL_FILE:$PRJ_DIR$/test-configs/amigo-cs5.0.xml:Amigo" />
+        <entry key="location-10" value="LOCAL_FILE:$PRJ_DIR$/test-configs/issue-98.xml:Issue 98" />
+        <entry key="location-11" value="LOCAL_FILE:$PRJ_DIR$/test-configs/testy.jar!/yazino-checkstyle-rules.xml:JAR test" />
+        <entry key="location-12" value="LOCAL_FILE:$PRJ_DIR$/test-configs/man-checkstyle.xml:Man" />
+        <entry key="location-13" value="LOCAL_FILE:$PRJ_DIR$/test-configs/man-checkstyle.xml:Man2" />
+        <entry key="location-14" value="LOCAL_FILE:$PRJ_DIR$/test-configs/sonar.xml:Sonar" />
+        <entry key="location-15" value="CLASSPATH:/sun_checks.xml:The default CheckStyle rules" />
+        <entry key="location-16" value="LOCAL_FILE:$PRJ_DIR$/test-configs/yazino-checkstyle-rules.xml:Yazino" />
+        <entry key="location-17" value="HTTP_URL:https://simia-infinitus.com/amigo-cs5.0.xml:Amigo HTTP" />
+        <entry key="location-2" value="LOCAL_FILE:$PRJ_DIR$/test-configs/beyondtrack_checks.xml:BT" />
+        <entry key="location-3" value="LOCAL_FILE:$PRJ_DIR$/test-configs/import-control.xml:ImportControl" />
+        <entry key="location-4" value="LOCAL_FILE:$PRJ_DIR$/test-configs/foundation_checkstyle.xml:Issue 119" />
+        <entry key="location-5" value="LOCAL_FILE:$PRJ_DIR$/test-configs/issue-130.xml:Issue 130" />
+        <entry key="location-6" value="LOCAL_FILE:$PRJ_DIR$/test-configs/issue-23.checkstyle:Issue 23" />
+        <entry key="location-7" value="LOCAL_FILE:$PRJ_DIR$/test-configs/issue-53.xml:Issue 53" />
+        <entry key="location-8" value="LOCAL_FILE:$PRJ_DIR$/test-configs/beyondtrack_checks.xml:Issue 86" />
+        <entry key="location-9" value="LOCAL_FILE:$PRJ_DIR$/test-configs/issue-96.xml:Issue 96" />
+        <entry key="property-10.samedir" value="" />
+        <entry key="property-11.checkstyle.suppressions.file" value="yazino-checkstyle-suppressions.xml" />
+        <entry key="property-16.checkstyle.suppressions.file" value="$PROJECT_DIR$/test-configs/yazino-checkstyle-suppressions.xml" />
+        <entry key="property-4.checkstyle.suppressions.file" value="checkstyleSuppressions.xml" />
         <entry key="suppress-errors" value="false" />
         <entry key="thirdparty-classpath" value="$PROJECT_DIR$/../Third Party/CreateYourOwnCheckStyleCheck/BlundellCheckstyle/target/blundell-checkstyle-checks-1.0.jar" />
       </map>
@@ -114,9 +119,7 @@
       </profile>
     </annotationProcessing>
   </component>
-  <component name="CopyrightManager" default="">
-    <module2copyright />
-  </component>
+  <component name="CopyrightManager" default="" />
   <component name="DependencyValidationManager">
     <option name="SKIP_IMPORT_STATEMENTS" value="false" />
   </component>
@@ -129,25 +132,23 @@
       <item index="0" class="java.lang.String" itemvalue="org.mockito.Mock" />
     </list>
   </component>
+  <component name="IdProvider" IDEtalkID="AD46944D1D1F5B1EC9B011BF09A7C6BB" />
   <component name="InspectionPassRegistrar">
     <option name="LOAD_NEW_PROBLEMS" value="true" />
   </component>
   <component name="InspectionProjectProfileManager">
-    <profiles>
-      <profile version="1.0" is_locked="false">
-        <option name="myName" value="Project Default" />
-        <option name="myLocal" value="false" />
-        <inspection_tool class="CheckStyle-IDEA" enabled="true" level="CHECKSTYLE" enabled_by_default="true" />
-        <inspection_tool class="ComparatorNotSerializable" enabled="true" level="WARNING" enabled_by_default="true" />
-        <inspection_tool class="NonSerializableWithSerialVersionUIDField" enabled="true" level="WARNING" enabled_by_default="true" />
-        <inspection_tool class="SerialVersionUIDNotStaticFinal" enabled="true" level="WARNING" enabled_by_default="true" />
-        <inspection_tool class="SerializableHasSerialVersionUIDField" enabled="true" level="WARNING" enabled_by_default="true">
-          <option name="ignoreAnonymousInnerClasses" value="false" />
-          <option name="superClassString" value="java.awt.Component" />
-        </inspection_tool>
-        <inspection_tool class="TransientFieldInNonSerializableClass" enabled="true" level="WARNING" enabled_by_default="true" />
-      </profile>
-    </profiles>
+    <profile version="1.0" is_locked="false">
+      <option name="myName" value="Project Default" />
+      <option name="myLocal" value="true" />
+      <inspection_tool class="ComparatorNotSerializable" enabled="true" level="WARNING" enabled_by_default="true" />
+      <inspection_tool class="NonSerializableWithSerialVersionUIDField" enabled="true" level="WARNING" enabled_by_default="true" />
+      <inspection_tool class="SerialVersionUIDNotStaticFinal" enabled="true" level="WARNING" enabled_by_default="true" />
+      <inspection_tool class="SerializableHasSerialVersionUIDField" enabled="true" level="WARNING" enabled_by_default="true">
+        <option name="ignoreAnonymousInnerClasses" value="false" />
+        <option name="superClassString" value="java.awt.Component" />
+      </inspection_tool>
+      <inspection_tool class="TransientFieldInNonSerializableClass" enabled="true" level="WARNING" enabled_by_default="true" />
+    </profile>
     <option name="PROJECT_PROFILE" value="Project Default" />
     <option name="USE_PROJECT_PROFILE" value="true" />
     <version value="1.0" />
@@ -158,9 +159,7 @@
       <option name="myName" value="CHECKSTYLE" />
       <option name="myVal" value="50" />
       <option name="myExternalName" value="CHECKSTYLE" />
-      <option name="myDefaultAttributes">
-        <option name="EFFECT_TYPE" value="0" />
-      </option>
+      <option name="myDefaultAttributes" />
     </info>
     <list size="7">
       <item index="0" class="java.lang.String" itemvalue="CHECKSTYLE" />
@@ -228,7 +227,7 @@
   <component name="ProjectResources">
     <default-html-doctype>http://www.w3.org/1999/xhtml</default-html-doctype>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="IDEA IU-129.1359" project-jdk-type="IDEA JDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="false" assert-keyword="true" jdk-15="true" project-jdk-name="IntelliJ IDEA IU-141.178.9" project-jdk-type="IDEA JDK">
     <output url="file://$PROJECT_DIR$/target" />
   </component>
   <component name="Regex">
@@ -285,24 +284,56 @@
     <find-history />
   </component>
   <component name="libraryTable">
-    <library name="checkstyle-5.7-all">
+    <library name="com.puppycrawl.tools:checkstyle:6.5" type="repository">
+      <properties maven-id="com.puppycrawl.tools:checkstyle:6.5" />
       <CLASSES>
-        <root url="jar://$PROJECT_DIR$/lib/checkstyle-5.7-all.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/puppycrawl/tools/checkstyle/6.5/checkstyle-6.5.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.3.2/commons-lang3-3.3.2.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/antlr/antlr/2.7.7/antlr-2.7.7.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/antlr/antlr4-runtime/4.5/antlr4-runtime-4.5.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/abego/treelayout/org.abego.treelayout.core/1.0.1/org.abego.treelayout.core-1.0.1.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/commons-beanutils/commons-beanutils-core/1.8.3/commons-beanutils-core-1.8.3.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/commons-cli/commons-cli/1.2/commons-cli-1.2.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/guava/guava/18.0/guava-18.0.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/ant/ant/1.9.4/ant-1.9.4.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/ant/ant-launcher/1.9.4/ant-launcher-1.9.4.jar!/" />
       </CLASSES>
       <JAVADOC />
-      <SOURCES>
-        <root url="file://$PROJECT_DIR$/../Third Party/checkstyle-5.7/src/tests" />
-        <root url="file://$PROJECT_DIR$/../Third Party/checkstyle-5.7/src/checkstyle" />
-        <root url="file://$PROJECT_DIR$/../Third Party/checkstyle-5.7/src/testinputs" />
-      </SOURCES>
+      <SOURCES />
     </library>
-    <library name="commons-io-2.4">
+    <library name="commons-io:commons-io:2.4" type="repository">
+      <properties maven-id="commons-io:commons-io:2.4" />
       <CLASSES>
-        <root url="jar://$PROJECT_DIR$/lib/commons-io-2.4.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/commons-io/commons-io/2.4/commons-io-2.4.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+    </library>
+    <library name="junit:junit:4.11" type="repository">
+      <properties maven-id="junit:junit:4.11" />
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/junit/junit/4.11/junit-4.11.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+    </library>
+    <library name="org.hamcrest:hamcrest-all:1.3" type="repository">
+      <properties maven-id="org.hamcrest:hamcrest-all:1.3" />
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/hamcrest/hamcrest-all/1.3/hamcrest-all-1.3.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+    </library>
+    <library name="org.mockito:mockito-all:1.9.5" type="repository">
+      <properties maven-id="org.mockito:mockito-all:1.9.5" />
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/mockito/mockito-all/1.9.5/mockito-all-1.9.5.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES />
     </library>
   </component>
 </project>
-

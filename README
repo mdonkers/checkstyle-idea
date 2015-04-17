@@ -1,15 +1,26 @@
 CheckStyle-IDEA
 ---------------
-(c) Copyright 2006-2014 CheckStyle-IDEA Contributors
+(c) Copyright 2006-2015 CheckStyle-IDEA Contributors
 
 https://github.com/jshiell/checkstyle-idea
 
-A plug-in for JetBrains' IntelliJ IDEA 12 and 13 which provides real-time
+A plug-in for JetBrains' IntelliJ IDEA 14.1 which provides real-time
 feedback against a given CheckStyle (http://checkstyle.sourceforge.net/)
 profile by way of an inspection.
 
 Released under a BSD-style licence - please see the LICENCE file for details.
 
+============================================================================
+
+OS X users please note - CheckStyle 6.2 and above require Java 8. As the
+default IDEA package for OS X runs on Java 6, please make use of the versions
+with the bundled JDK, e.g.
+
+  https://download.jetbrains.com/idea/ideaIU-14.1.1-custom-jdk-bundled.dmg
+
+All other users please note - we require IDEA to be running on JDK 8.
+
+============================================================================
 
 Use
 ---
@@ -98,7 +109,7 @@ Limitations
 
 * CheckStyle errors and warnings from the inspection are both shown at
   a single level, as IDEA will only allow one warning level for an inspection.
-  
+
 * Loading a file from a URL is current experimental and not guaranteed to do
   anything at all.
 
@@ -140,14 +151,16 @@ Thanks to those who have contributed work and effort directly to this project:
 * Yuri
 * Kristin Young
 * Simon Billingsley
+* Miel Donkers
+* Dmitrij (zherebjatjew)
 
- And also thanks are due to the authors and contributors of:
+And also thanks are due to the authors and contributors of:
 
 * Eclipse-CS, for inspiration and solutions to coding problems.
 * JetStyle, for filling the area of static scanning and also giving me
   inspirations on coding solutions.
 * CheckStyle, for without them we'd have merely void and chaos.
-* JetBrains, for an IDE which is worth every penny and them some.
+* JetBrains, for an IDE which is worth every penny and then some.
 
 And a big thank-you to everyone who's sent me feedback or bug reports - both
 are much appreciated!
@@ -163,6 +176,35 @@ LICENCE file.
 Version History
 ---------------
 
+4.14.2 - Fixed: Updated icons to more closely resemble current CheckStyle icon.
+4.14.2 - Fixed: File writes are now forced to UTF-8 (#84).
+4.14.1 - Fixed: HTTP rules files should result in fewer temporary files (#149).
+4.14.1 - Fixed: findFile now uses ReadAction (#140).
+4.14.0 - New: Moved to CheckStyle 6.5, which requires Java 7 or above.
+4.14.0 - New: Moved to Java 8. Please make sure IDEA is running on JDK 8. OS X users must use the 14.1 build with the bundled JDK.
+4.14.0 - New: As such, we now use the IDEA 14.1 SDK.
+4.13.2 - New: Reverted to IDEA 13 SDK, as when IDEA 14.1 drops with Java 8 for OS X users there's going to be an SDK update anyway.
+4.13.2 - Fixed: Third party classes were not available in dialogue editors. (#133).
+4.13.1 - Fixed: Became paranoid about ToolWindow implementation classes to avoid ClassCastExceptions (#131).
+4.13.0 - New: Moved to IDEA 14 SDK.
+4.12.0 - New: Files can now be selected from within JAR files (#125).
+4.11.2 - Fixed: Changed configuration storage to use a sorted map, to stop silly changes to project files.
+4.11.2 - Fixed: Configuration files are now sorted by description in the configuration panel.
+4.11.2 - Fixed: Filename defaults should now be taken into account (#119).
+4.11.2 - Fixed: Cell edits in properties table are now directly committed on action (#119).
+4.11.1 - Fixed: ClassCast on ToolWindow via presumed race condition (#82).
+4.11.0 - New: Updated to CheckStyle 6.1.1 (#124).
+4.11.0 - Fixed: Made DTDs for import_control 1.1 and packages 1.0 available for offline access (#123).
+4.10.0 - New: Updated to CheckStyle 6.1 (#120).
+4.9.0 - New: Updated to CheckStyle 6.0 (#116).
+4.8.0 - New: Updated to CheckStyle 5.9 (#115).
+4.7.0 - New: Updated to CheckStyle 5.8 (#114).
+4.6.2 - Removed commons-logging from plugin classpath (#113).
+4.6.1 - Rules files may now have extension 'checkstyle' (#112).
+4.6.0 - Fixed caching of project relative locations between projects (#106).
+4.6.0 - Moved to IDEA SDK 133.696 (13.0.2).
+4.5.5 - Fixed: Project base directory is no longer permanently cached (#106).
+4.5.4 - Fixed: Null check for view; thanks to Miel Donkers (#104).
 4.5.3 - Fixed: Added range check for line numbers (#100).
 4.5.2 - New: When adding a HTTPS location you can now choose to ignore certificate errors (#99).
 4.5.2 - Fixed: HTTP basic auth is now supported for URLs with a username/password (#93).
@@ -272,7 +314,7 @@ Version History
 3.0   - New: Result list may be filtered on severity.
 3.0   - New: Back-end re-written to support multiple CheckStyle files. You will need to set your configuration
              once again I'm afraid.
-             
+
 2.4   - New: Default CheckStyle file now has generics patch applied.
 2.4   - New: Scans in progress may be aborted.
 2.4   - Fixed: Null Pointer Exception with package HTML check.
@@ -297,7 +339,7 @@ Version History
 2.0.1 - WARNING: Due to persistence changes you will need to reconfigure the plug-in after upgrading.
 2.0.1 - Fixed: Configuration dialogue now enables 'apply' when moving to default
         scheme from a configuration file.
-2.0.1 - Changed: Remove deprecated API calls to [hopefully] ensure forward 7.0 compatibility.      
+2.0.1 - Changed: Remove deprecated API calls to [hopefully] ensure forward 7.0 compatibility.
 2.0.1 - Changed: Icons improved.
 2.0.0 - This version offers no new features. However, 2.x versions will only work
         with IDEA 7M2 or above.

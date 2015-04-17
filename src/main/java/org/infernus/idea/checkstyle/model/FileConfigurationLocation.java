@@ -1,5 +1,6 @@
 package org.infernus.idea.checkstyle.model;
 
+import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.apache.commons.logging.Log;
@@ -9,6 +10,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.*;
+import java.util.Enumeration;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 /**
  * A configuration file on a mounted file system.
@@ -16,10 +20,9 @@ import java.io.*;
 public class FileConfigurationLocation extends ConfigurationLocation {
 
     private static final Log LOG = LogFactory.getLog(FileConfigurationLocation.class);
+    private static final int BUFFER_SIZE = 4096;
 
     private final Project project;
-
-    private File cachedProjectBase;
 
     /**
      * Create a new file configuration.
@@ -69,12 +72,141 @@ public class FileConfigurationLocation extends ConfigurationLocation {
 
     @NotNull
     protected InputStream resolveFile() throws IOException {
-        final File locationFile = new File(getLocation());
+        final String detokenisedLocation = getLocation();
+        if (isInJarFile(detokenisedLocation)) {
+            return readLocationFromJar(detokenisedLocation);
+        }
+
+        final File locationFile = new File(detokenisedLocation);
         if (!locationFile.exists()) {
             throw new FileNotFoundException("File does not exist: " + absolutePathOf(locationFile));
         }
 
         return new FileInputStream(locationFile);
+    }
+
+    private InputStream readLocationFromJar(final String detokenisedLocation) throws IOException {
+        final String[] fileParts = detokenisedLocation.split("!/");
+        final InputStream fileStream = readFileFromJar(fileParts[0], fileParts[1]);
+        if (fileStream == null) {
+            throw new FileNotFoundException("File does not exist: " + fileParts[0] + " containing " + fileParts[1]);
+        }
+        return fileStream;
+    }
+
+    @Nullable
+    @Override
+    public String resolveAssociatedFile(final String filename, final Module module) throws IOException {
+        final String associatedFile = super.resolveAssociatedFile(filename, module);
+        if (associatedFile != null) {
+            return associatedFile;
+        }
+
+        final String detokenisedLocation = getLocation();
+        if (isInJarFile(detokenisedLocation)) {
+            return writeStreamToTemporaryFile(
+                    readFileFromJar(detokenisedLocation.split("!/")[0], filename),
+                    extensionOf(filename));
+        }
+
+        return null;
+    }
+
+    private String extensionOf(final String filename) {
+        if (filename != null && filename.contains(".")) {
+            return filename.substring(filename.lastIndexOf("."));
+        }
+        return ".tmp";
+    }
+
+    private String writeStreamToTemporaryFile(final InputStream fileStream,
+                                              final String fileSuffix) throws IOException {
+        if (fileStream == null) {
+            return null;
+        }
+
+        final File tempFile = File.createTempFile("csidea-", fileSuffix);
+        BufferedOutputStream out = null;
+        try {
+            out = new BufferedOutputStream(new FileOutputStream(tempFile));
+            writeTo(fileStream, out);
+            tempFile.deleteOnExit();
+            return tempFile.getAbsolutePath();
+
+        } finally {
+            closeQuietly(out, fileStream);
+        }
+    }
+
+    private void writeTo(final InputStream fileStream, final BufferedOutputStream out) throws IOException {
+        final byte[] buffer = new byte[BUFFER_SIZE];
+        int read;
+        while ((read = fileStream.read(buffer)) != -1) {
+            out.write(buffer, 0, read);
+        }
+    }
+
+    private boolean isInJarFile(final String detokenisedLocation) {
+        return detokenisedLocation != null && detokenisedLocation.toLowerCase().contains(".jar!/");
+    }
+
+    public InputStream readFileFromJar(final String jarPath, final String filePath) throws IOException {
+        ZipFile jarFile = null;
+        try {
+            jarFile = new ZipFile(jarPath);
+            for (final Enumeration<? extends ZipEntry> e = jarFile.entries(); e.hasMoreElements(); ) {
+                final ZipEntry entry = e.nextElement();
+
+                if (!entry.isDirectory() && entry.getName().equals(filePath)) {
+                    BufferedInputStream bis = null;
+
+                    try {
+                        bis = new BufferedInputStream(jarFile.getInputStream(entry));
+                        return new ByteArrayInputStream(readFrom(bis));
+
+                    } finally {
+                        closeQuietly(bis);
+                    }
+                }
+            }
+
+        } finally {
+            closeQuietly(jarFile);
+        }
+
+        return null;
+    }
+
+    private byte[] readFrom(final BufferedInputStream bis) throws IOException {
+        final ByteArrayOutputStream rulesFile = new ByteArrayOutputStream();
+        final byte[] readBuffer = new byte[BUFFER_SIZE];
+        int count;
+        while ((count = bis.read(readBuffer, 0, BUFFER_SIZE)) != -1) {
+            rulesFile.write(readBuffer, 0, count);
+        }
+        return rulesFile.toByteArray();
+    }
+
+    private static void closeQuietly(final ZipFile jarFile) {
+        if (jarFile != null) {
+            try {
+                jarFile.close();
+            } catch (IOException ignored) {
+                // ignored
+            }
+        }
+    }
+
+    private static void closeQuietly(final Closeable... closeables) {
+        for (Closeable closeable : closeables) {
+            if (closeable != null) {
+                try {
+                    closeable.close();
+                } catch (IOException ignored) {
+                    // ignored
+                }
+            }
+        }
     }
 
     /**
@@ -84,10 +216,6 @@ public class FileConfigurationLocation extends ConfigurationLocation {
      */
     @Nullable
     File getProjectPath() {
-        if (cachedProjectBase != null) {
-            return cachedProjectBase;
-        }
-
         if (project == null) {
             return null;
         }
@@ -98,8 +226,7 @@ public class FileConfigurationLocation extends ConfigurationLocation {
                 return null;
             }
 
-            cachedProjectBase = new File(baseDir.getPath());
-            return cachedProjectBase;
+            return new File(baseDir.getPath());
 
         } catch (Exception e) {
             // IDEA 10.5.2 sometimes throws an AssertionException in project.getBaseDir()

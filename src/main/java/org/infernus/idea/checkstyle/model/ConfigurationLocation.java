@@ -1,8 +1,12 @@
 package org.infernus.idea.checkstyle.model;
 
+import com.intellij.openapi.module.Module;
+import com.intellij.openapi.roots.ContentEntry;
+import com.intellij.openapi.roots.ModuleRootManager;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.infernus.idea.checkstyle.util.CheckStyleEntityResolver;
+import org.infernus.idea.checkstyle.util.ObjectUtils;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
@@ -17,16 +21,16 @@ import java.util.*;
 /**
  * Bean encapsulating a configuration source.
  */
-public abstract class ConfigurationLocation implements Cloneable {
+public abstract class ConfigurationLocation implements Cloneable, Comparable<ConfigurationLocation> {
 
     private static final Log LOG = LogFactory.getLog(ConfigurationLocation.class);
 
     private static final long BLACKLIST_TIME_MS = 1000 * 60;
 
+    private final Map<String, String> properties = new HashMap<String, String>();
     private final ConfigurationType type;
     private String location;
     private String description;
-    private Map<String, String> properties = new HashMap<String, String>();
 
     private boolean propertiesCheckedThisSession;
     private long blacklistedUntil;
@@ -116,7 +120,7 @@ public abstract class ConfigurationLocation implements Cloneable {
                 return extractProperties(configDoc.getRootElement());
 
             } catch (Exception e) {
-                LOG.error("CheckStyle file could not be parsed for properties.", e);
+                LOG.warn("CheckStyle file could not be parsed for properties.", e);
             }
         }
 
@@ -136,7 +140,7 @@ public abstract class ConfigurationLocation implements Cloneable {
         if (element != null) {
             extractPropertyNames(element, propertyNames);
 
-            for (final Element child : (List<Element>) element.getChildren()) {
+            for (final Element child : element.getChildren()) {
                 propertyNames.addAll(extractProperties(child));
             }
         }
@@ -173,18 +177,15 @@ public abstract class ConfigurationLocation implements Cloneable {
         InputStream is = resolveFile();
 
         if (!propertiesCheckedThisSession) {
-            // update property definitions
             final List<String> propertiesInFile = extractProperties(is);
 
-            // merge properties from files
             for (final String propertyName : propertiesInFile) {
                 if (!properties.containsKey(propertyName)) {
                     properties.put(propertyName, "");
                 }
             }
 
-            // remove redundant properties
-            for (final Iterator<String> i = properties.keySet().iterator(); i.hasNext();) {
+            for (final Iterator<String> i = properties.keySet().iterator(); i.hasNext(); ) {
                 if (!propertiesInFile.contains(i.next())) {
                     i.remove();
                 }
@@ -202,6 +203,91 @@ public abstract class ConfigurationLocation implements Cloneable {
         return is;
     }
 
+    @Nullable
+    public String resolveAssociatedFile(final String filename,
+                                        final Module module) throws IOException {
+        if (filename == null) {
+            return null;
+        } else if (new File(filename).exists()) {
+            return filename;
+        }
+
+        return findFile(filename, module);
+    }
+
+    private String findFile(final String fileName, final Module module) {
+        if (fileName == null
+                || "".equals(fileName.trim())
+                || fileName.toLowerCase().startsWith("http://")
+                || fileName.toLowerCase().startsWith("https://")) {
+            return fileName;
+        }
+
+        File suppressionFile = checkRelativeToRulesFile(fileName);
+        if (module != null) {
+            suppressionFile = checkProjectBaseDir(module, fileName,
+                    checkModuleFile(module, fileName,
+                            checkModuleContentRoots(fileName, suppressionFile, ModuleRootManager.getInstance(module))));
+        }
+
+        if (suppressionFile != null) {
+            return suppressionFile.getAbsolutePath();
+        }
+        return null;
+    }
+
+    private File checkRelativeToRulesFile(final String fileName) {
+        if (getBaseDir() != null) {
+            final File configFileRelativePath = new File(getBaseDir(), fileName);
+            if (configFileRelativePath.exists()) {
+                return configFileRelativePath;
+            }
+        }
+        return null;
+    }
+
+    private File checkProjectBaseDir(final Module module,
+                                     final String fileName,
+                                     final File suppressionFile) {
+        if (suppressionFile == null && module.getProject().getBaseDir() != null) {
+            final File projectRelativePath = new File(module.getProject().getBaseDir().getPath(), fileName);
+            if (projectRelativePath.exists()) {
+                return projectRelativePath;
+            }
+        }
+        return suppressionFile;
+    }
+
+    private File checkModuleFile(final Module module,
+                                 final String fileName,
+                                 final File suppressionFile) {
+        if (suppressionFile == null && module.getModuleFile() != null) {
+            final File moduleRelativePath = new File(module.getModuleFile().getParent().getPath(), fileName);
+            if (moduleRelativePath.exists()) {
+                return moduleRelativePath;
+            }
+        }
+        return suppressionFile;
+    }
+
+    private File checkModuleContentRoots(final String fileName,
+                                         final File suppressionFile,
+                                         final ModuleRootManager rootManager) {
+        if (suppressionFile == null && rootManager.getContentEntries().length > 0) {
+            for (final ContentEntry contentEntry : rootManager.getContentEntries()) {
+                if (contentEntry.getFile() == null) {
+                    continue;
+                }
+
+                final File contentEntryPath = new File(contentEntry.getFile().getPath(), fileName);
+                if (contentEntryPath.exists()) {
+                    return contentEntryPath;
+                }
+            }
+        }
+        return suppressionFile;
+    }
+
     public final boolean hasChangedFrom(final ConfigurationLocation configurationLocation) throws IOException {
         return configurationLocation == null
                 || !equals(configurationLocation)
@@ -210,7 +296,6 @@ public abstract class ConfigurationLocation implements Cloneable {
     }
 
     public String getDescriptor() {
-        assert type != null;
         assert location != null;
         assert description != null;
 
@@ -266,7 +351,7 @@ public abstract class ConfigurationLocation implements Cloneable {
 
     @Override
     public final int hashCode() {
-        int result = type != null ? type.hashCode() : 0;
+        int result = type.hashCode();
         result = 31 * result + (location != null ? location.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         return result;
@@ -277,6 +362,11 @@ public abstract class ConfigurationLocation implements Cloneable {
         assert description != null;
 
         return description;
+    }
+
+    @Override
+    public int compareTo(@NotNull final ConfigurationLocation configurationLocation) {
+        return ObjectUtils.compare(getDescription(), configurationLocation.getDescription());
     }
 
     public boolean isBlacklisted() {
